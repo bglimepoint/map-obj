@@ -10,7 +10,7 @@ const isObjectCustom = value =>
 
 export const mapObjectSkip = Symbol('mapObjectSkip');
 
-const _mapObject = (object, mapper, options, isSeen = new WeakMap()) => {
+const _mapObject = (object, mapper, options, isSeen) => {
 	options = {
 		deep: false,
 		target: {},
@@ -57,7 +57,7 @@ const _mapObject = (object, mapper, options, isSeen = new WeakMap()) => {
 	return target;
 };
 
-export default function mapObject(object, mapper, options) {
+export default function mapObject(object, mapper, options, isSeen = new WeakMap()) {
 	if (!isObject(object)) {
 		throw new TypeError(`Expected an object, got \`${object}\` (${typeof object})`);
 	}
@@ -66,5 +66,5 @@ export default function mapObject(object, mapper, options) {
 		throw new TypeError('Expected an object, got an array');
 	}
 
-	return _mapObject(object, mapper, options);
+	return _mapObject(object, mapper, options, isSeen);
 }
